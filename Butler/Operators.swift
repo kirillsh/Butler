@@ -12,6 +12,6 @@ import Foundation
 infix operator ??= { associativity right precedence 90 assignment } // matches other assignment operators
 
 /// If `lhs` is `nil`, assigns to it the value of `rhs`.
-public func ??=<T>(inout lhs: T?, @autoclosure rhs: () -> T) {
+public func ??=<T>(lhs: inout T?, rhs: @autoclosure () -> T) {
     lhs = lhs ?? rhs()
 }

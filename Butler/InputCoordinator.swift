@@ -8,36 +8,36 @@
 
 import UIKit
 
-public class InputCoordinator: NSObject {
-    static func configureText(textField: UITextField) {
-        textField.keyboardType = .ASCIICapable
-        textField.autocorrectionType = .Yes
-        textField.autocapitalizationType = .None
+open class InputCoordinator: NSObject {
+    static func configureText(_ textField: UITextField) {
+        textField.keyboardType = .asciiCapable
+        textField.autocorrectionType = .yes
+        textField.autocapitalizationType = .none
     }
 
-    static func configureEmail(textField: UITextField) {
-        textField.keyboardType = .EmailAddress
-        textField.autocorrectionType = .No
-        textField.autocapitalizationType = .None
+    static func configureEmail(_ textField: UITextField) {
+        textField.keyboardType = .emailAddress
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
     }
 
-    static func configurePhone(textField: UITextField) {
-        textField.keyboardType = .PhonePad
-        textField.autocorrectionType = .No
-        textField.autocapitalizationType = .None
+    static func configurePhone(_ textField: UITextField) {
+        textField.keyboardType = .phonePad
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
     }
 
-    static func configurePassword(textField: UITextField) {
-        textField.keyboardType = .ASCIICapable
-        textField.autocorrectionType = .No
-        textField.autocapitalizationType = .None
-        textField.secureTextEntry = true
+    static func configurePassword(_ textField: UITextField) {
+        textField.keyboardType = .asciiCapable
+        textField.autocorrectionType = .no
+        textField.autocapitalizationType = .none
+        textField.isSecureTextEntry = true
     }
 
     var fields: [UITextField] = []
     var finishedBlock: (() -> ())?
 
-    public func createInputFlow(view: UIView, completion: (() -> ())? = nil) {
+    open func createInputFlow(_ view: UIView, completion: (() -> ())? = nil) {
         fields = []
         finishedBlock = completion
 
@@ -45,18 +45,18 @@ public class InputCoordinator: NSObject {
             if let subview = subview as? UITextField {
                 fields.append(subview)
                 subview.delegate = self
-                subview.returnKeyType = .Next
+                subview.returnKeyType = .next
             }
         }
 
         if let last = fields.last {
-            last.returnKeyType = .Done
+            last.returnKeyType = .done
         }
     }
 
-    public func firstResponder() -> UITextField? {
+    open func firstResponder() -> UITextField? {
         for field in fields {
-            if field.isFirstResponder() {
+            if field.isFirstResponder {
                 return field
             }
         }
@@ -66,7 +66,7 @@ public class InputCoordinator: NSObject {
 }
 
 extension InputCoordinator: UITextFieldDelegate {
-    public func textFieldShouldReturn(textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         guard let last = fields.last else {
             return true
         }
@@ -78,7 +78,7 @@ extension InputCoordinator: UITextFieldDelegate {
                 finishedBlock()
             }
         } else if fields.contains(textField) {
-            if let index = fields.indexOf(textField) {
+            if let index = fields.index(of: textField) {
                 fields[index+1].becomeFirstResponder()
             }
         } else {

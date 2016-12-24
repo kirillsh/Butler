@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'Butler'
-  s.version = '0.1'
+  s.version = '0.2'
   s.license = 'MIT'
   s.summary = 'Butler does things that you could do but dont want to'
   s.homepage = 'https://github.com/nickoneill/Butler'

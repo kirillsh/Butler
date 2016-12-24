@@ -14,22 +14,18 @@ import Foundation
 //// the rest of the project without having to declare `import Butler` everywhere
 //typealias HelloButler = Butler
 
-public class Butler {
+open class Butler {
     // basic test for valid email string
-    public class func emailValid(email: String) -> Bool {
+    open class func emailValid(_ email: String) -> Bool {
         let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,6}"
         let emailTest = NSPredicate(format: "SELF MATCHES %@", emailRegex)
 
-        return emailTest.evaluateWithObject(email)
+        return emailTest.evaluate(with: email)
     }
 
     // easy to use delays
-    public class func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
+    open class func delay(_ delay:Double, closure:@escaping ()->()) {
+        DispatchQueue.main.asyncAfter(
+            deadline: DispatchTime.now() + Double(Int64(delay * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: closure)
     }
 }
